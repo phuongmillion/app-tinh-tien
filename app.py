@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, Response
 
 app = Flask(__name__)
 
@@ -13,7 +13,8 @@ def homepage():
     try:
         return render_template("index.html", title=title, paragraph=paragraph)
     except Exception:
-        return Exception
+        print(Exception)
+        return ""
 
 
 @app.route('/about')
