@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+    <head>
+        <title>Reusable Form Demo</title>
+       <link rel="stylesheet" media="screen" href ="static/bootstrap.min.css">
+       <link rel="stylesheet" href="static/bootstrap-theme.min.css">
+       <meta name="viewport" content = "width=device-width, initial-scale=1.0">
+
+    </head>
+    <body>
+    {% include 'header.html' %}
+
+ <div class="jumbotron">
+<div class="container">
+      <h2>Thông tin người vay</h2>
+
+  <form  action="" method="post" role="form">
+    <div class="form-group">
+      <label for="name">Tên người vay:</label>
+      <input type="text" class="form-control" id="name" name="name" placeholder="NguyenVanA">
+    </div>
+      <div class="form-row">
+    <div class="col-md-6 form-group">
+      <label for="tienlai">Tiền lãi 10 ngày:</label>
+      <input type="number" step="50000" class="form-control" id="tienlai" name="tienlai" value="250000" required>
+    </div>
+    <div class="col-md-3 form-group">
+      <label for="ngayvay">Ngày vay:</label>
+      <input type="date"  class="form-control" id="ngayvay" name="ngayvay" required>
+    </div>
+    <div class="col-md-3 form-group">
+      <label for="ngaytra">Ngày trả:</label>
+      <input type="date" class="form-control" id="ngaytra" name="ngaytra" required>
+    </div>
+  </div>
+     <button type="submit" class="btn btn-success">Sign Up</button>
+
+  </form>
+  <br>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+
+        {% for message in messages %}
+            {% if "Error" not in message[1]: %}
+                <div class="alert alert-info">
+                <strong>Success! </strong> {{ message[1] }}
+                </div>
+            {% endif %}
+
+            {% if "Error" in message[1]: %}
+                <div class="alert alert-warning">
+                {{ message[1] }}
+                </div>
+            {% endif %}
+        {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+</div>
+<br>
+ </div>
+</div>
+</div>
+</body>
+</html>
