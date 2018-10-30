@@ -76,8 +76,10 @@ def get_danh_sach():
 @app.route("/danhsach/", methods=['POST'])
 def dele_danh_sach():
     global tong_tien
+    global tong_tien_trong_thang
     try:
-        tong_tien = tong_tien - tong_nguoi[int(request.data.decode("utf-8")) - 1]
+        tong_tien = tong_tien - tong_nguoi[int(request.data.decode("utf-8")) - 1].thanhtien
+        tong_tien_trong_thang = tong_tien_trong_thang - tong_nguoi[int(request.data.decode("utf-8")) - 1].tientrongthang
         tong_nguoi.pop(int(request.data.decode("utf-8")) - 1)
     except:
         return redirect('/danhsach')
