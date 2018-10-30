@@ -19,26 +19,35 @@ class ReusableForm(Form):
     ngaytra = TextField('ngaytra:', validators=[validators.required()])
 
 class NguoiVay:
-    def __init__(self, name=None, ngay_muon=None, ngay_ket_thuc=None, tien_lai_10_ngay=None, sdt=None, tien=None):
+    def __init__(self, name=None, ngay_muon=None, ngay_ket_thuc=None, tien_lai_10_ngay=None, sdt=None):
         self.name = name
         self.ngay_muon = ngay_muon
         self.ngay_ket_thuc = ngay_ket_thuc
         self.tien_lai_10_ngay = tien_lai_10_ngay
         self.sdt = sdt
-        self.tien = self.tinhtien()
+        self.thanhtien = self.thanhtien()
+        self.tientrongthang = self.tientrongthang()
 
-    def tinhtien(self):
+    def thanhtien(self):
         ngay = self.ngay_ket_thuc - self.ngay_muon
         tong_tien_thu_duoc = (ngay.days // 10) * self.tien_lai_10_ngay
-        # tien_trong_thang = tong_tien_thu_duoc % (self.tien_lai_10_ngay * 3)
         return int(tong_tien_thu_duoc)
 
-tong_nguoi = []
+    def tientrongthang(self):
+        ngay = self.ngay_ket_thuc - self.ngay_muon
+        tong_tien_thu_duoc = (ngay.days // 10) * self.tien_lai_10_ngay
+        tien_trong_thang = tong_tien_thu_duoc % (self.tien_lai_10_ngay * 3)
+        return int(tien_trong_thang)
 
+tong_nguoi = []
+tong_tien_trong_thang = 0
+tong_tien = 0
 @app.route("/", methods=['GET', 'POST'])
 def hello():
+    global tong_nguoi
+    global tong_tien_trong_thang
+    global tong_tien
     form = ReusableForm(request.form)
-
     if request.method == 'POST':
         split_year_borrow, split_month_borrow, split_date_borrow = request.form['ngayvay'].split("-")
         split_y_back, split_m_back, split_d_back = request.form['ngaytra'].split("-")
@@ -51,20 +60,24 @@ def hello():
 
 
         if form.validate():
-            # Save the comment here.
             tong_nguoi.append(nguoi_vay)
+            tong_tien_trong_thang = tong_tien_trong_thang + nguoi_vay.tientrongthang
+            tong_tien = tong_tien + nguoi_vay.thanhtien
         else:
             flash('Error: All the form fields are required. ')
 
-    return render_template('home.html', tong_nguoi=tong_nguoi)
+
+    return render_template('home.html', tong_nguoi=tong_nguoi, tong=tong_tien, tongthang= tong_tien_trong_thang)
 
 @app.route("/danhsach", methods=['GET'])
 def get_danh_sach():
-    return render_template('danhsach.html', tong_nguoi=tong_nguoi)
+    return render_template('danhsach.html', tong_nguoi=tong_nguoi, tong=tong_tien, tongthang= tong_tien_trong_thang)
 
 @app.route("/danhsach/", methods=['POST'])
 def dele_danh_sach():
+    global tong_tien
     try:
+        tong_tien = tong_tien - tong_nguoi[int(request.data.decode("utf-8")) - 1]
         tong_nguoi.pop(int(request.data.decode("utf-8")) - 1)
     except:
         return redirect('/danhsach')

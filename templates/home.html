@@ -67,8 +67,8 @@
         <th>Ngày vay</th>
         <th>Ngày trả</th>
         <th>Tiền lãi 10 ngày</th>
-        <th>Số điện thoại</th>
-        <th>Tiền</th>
+        <th>Thành tiền</th>
+        <th>Tiền trong tháng</th>
       </tr>
     </thead>
     <tbody>
@@ -78,11 +78,18 @@
         <td >{{n["ngay_muon"]}}</td>
         <td >{{n["ngay_ket_thuc"]}}</td>
         <td >{{n["tien_lai_10_ngay"]}}</td>
-        <td >{{n["sdt"]}}</td>
-        <td >{{n["tien"]}}</td>
+        <td >{{n["thanhtien"]/1000}} K</td>
+        <td >{{n["tientrongthang"]/1000}} K</td>
         </tr>
         {% endfor %}
     </tbody>
+    <tfoot>
+        <tr>
+          <td colspan="4"></td>
+          <td >{{tong}}</td>
+          <td >{{tongthang}}</td>
+        </tr>
+    </tfoot>
      </table>
 </div>
 <br>
