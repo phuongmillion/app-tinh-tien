@@ -1,5 +1,6 @@
 import datetime
 import json
+from time import sleep
 
 from flask import Flask, render_template, flash, request, redirect
 from wtforms import Form, TextField, TextAreaField, validators, StringField, SubmitField
@@ -18,11 +19,12 @@ class ReusableForm(Form):
     ngaytra = TextField('ngaytra:', validators=[validators.required()])
 
 class NguoiVay:
-    def __init__(self, name=None, ngay_muon=None, ngay_ket_thuc=None, tien_lai_10_ngay=None ):
+    def __init__(self, name=None, ngay_muon=None, ngay_ket_thuc=None, tien_lai_10_ngay=None, sdt=None):
         self.name = name
         self.ngay_muon = ngay_muon
         self.ngay_ket_thuc = ngay_ket_thuc
         self.tien_lai_10_ngay = tien_lai_10_ngay
+        self.sdt = sdt
 
 tong_nguoi = []
 
@@ -37,7 +39,8 @@ def hello():
                              ngay_muon=datetime.date(int(split_year_borrow), int(split_month_borrow),
                                                      int(split_date_borrow)),
                              ngay_ket_thuc=datetime.date(int(split_y_back), int(split_m_back), int(split_d_back)),
-                             tien_lai_10_ngay=int(request.form['tienlai']))
+                             tien_lai_10_ngay=int(request.form['tienlai']),
+                             sdt=int(request.form['sdt']))
 
         if form.validate():
             # Save the comment here.
@@ -45,7 +48,7 @@ def hello():
         else:
             flash('Error: All the form fields are required. ')
 
-    return render_template('home.html')
+    return render_template('home.html', tong_nguoi=tong_nguoi)
 
 @app.route("/danhsach", methods=['GET'])
 def get_danh_sach():
@@ -53,8 +56,17 @@ def get_danh_sach():
 
 @app.route("/danhsach/", methods=['POST'])
 def dele_danh_sach():
-    tong_nguoi.pop(int(request.data.decode("utf-8")) - 1)
-    return redirect("/danhsach")
+    try:
+        tong_nguoi.pop(int(request.data.decode("utf-8")) - 1)
+    except:
+        return redirect('/danhsach')
+    return redirect('/danhsach')
+
+@app.route("/contact", methods=['GET'])
+def get_contact():
+
+    return render_template('contact.html')
+
 
 
 if __name__ == "__main__":

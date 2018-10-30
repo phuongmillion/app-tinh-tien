@@ -9,8 +9,9 @@
     </head>
     <body>
     {% include 'header.html' %}
-<div class="jumbotron">
+<div class="jumbotron" style="min-height: 55vh">
  <div class="container">
+     <h1>Chỉnh sửa thông tin</h1>
      <table class="table table-condensed">
         <thead>
          <tr>
@@ -18,6 +19,7 @@
         <th>Ngày vay</th>
         <th>Ngày trả</th>
         <th>Tiền lãi 10 ngày</th>
+        <th>Số điện thoại</th>
       </tr>
     </thead>
     <tbody>
@@ -27,6 +29,7 @@
         <td >{{n["ngay_muon"]}}</td>
         <td >{{n["ngay_ket_thuc"]}}</td>
         <td >{{n["tien_lai_10_ngay"]}}</td>
+        <td >{{n["sdt"]}}</td>
         <td><button type="button" class="btn btn-sm btn-success" onclick="de({{loop.index}})" />Xóa</td>
         </tr>
         {% endfor %}
@@ -34,6 +37,8 @@
      </table>
  </div>
 </div>
+    {% include 'footer.html' %}
+
     <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
 
     <script>
@@ -46,9 +51,10 @@
              });
        fetch(request)
        .then(resp => {
-             // handle response })
+             window.location.reload()
 
     })}
      </script>
+
     </body>
 </html>

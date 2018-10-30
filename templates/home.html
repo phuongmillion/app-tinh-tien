@@ -10,7 +10,7 @@
     <body>
     {% include 'header.html' %}
 
- <div class="jumbotron">
+ <div class="jumbotron" style="min-height: 55vh">
 <div class="container">
       <h2>Thông tin người vay</h2>
 
@@ -19,21 +19,25 @@
       <label for="name">Tên người vay:</label>
       <input type="text" class="form-control" id="name" name="name" placeholder="NguyenVanA">
     </div>
-      <div class="form-row">
-    <div class="col-md-6 form-group">
+      <div class="form-row form-group" >
+    <div class="col-md-6 " style="padding-left: 0px">
       <label for="tienlai">Tiền lãi 10 ngày:</label>
       <input type="number" step="50000" class="form-control" id="tienlai" name="tienlai" value="250000" required>
     </div>
-    <div class="col-md-3 form-group">
+    <div class="col-md-3 " style="padding-left: 0px">
       <label for="ngayvay">Ngày vay:</label>
       <input type="date"  class="form-control" id="ngayvay" name="ngayvay" required>
     </div>
-    <div class="col-md-3 form-group">
+    <div class="col-md-3 " style="padding-right: 0px; padding-left: 0px">
       <label for="ngaytra">Ngày trả:</label>
       <input type="date" class="form-control" id="ngaytra" name="ngaytra" required>
     </div>
   </div>
-     <button type="submit" class="btn btn-success">Sign Up</button>
+      <div class="form-group">
+      <label for="Sđt">Số điện thoại:</label>
+      <input type="number" class="form-control" id="Sđt" name="sdt">
+    </div>
+     <button type="submit" class="btn-sm btn-success">Thêm</button>
 
   </form>
   <br>
@@ -55,11 +59,35 @@
         {% endfor %}
             {% endif %}
         {% endwith %}
-
+    <h2>Danh sách</h2>
+    <table class="table table-condensed">
+        <thead>
+         <tr>
+        <th>Tên người vay</th>
+        <th>Ngày vay</th>
+        <th>Ngày trả</th>
+        <th>Tiền lãi 10 ngày</th>
+        <th>Số điện thoại</th>
+      </tr>
+    </thead>
+    <tbody>
+        {% for n in tong_nguoi %}
+        <tr id={{loop.index}}>
+        <td >{{n["name"]}}</td>
+        <td >{{n["ngay_muon"]}}</td>
+        <td >{{n["ngay_ket_thuc"]}}</td>
+        <td >{{n["tien_lai_10_ngay"]}}</td>
+        <td >{{n["sdt"]}}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+     </table>
 </div>
 <br>
  </div>
 </div>
 </div>
+    {% include 'footer.html' %}
+
 </body>
 </html>
