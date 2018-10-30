@@ -19,12 +19,19 @@ class ReusableForm(Form):
     ngaytra = TextField('ngaytra:', validators=[validators.required()])
 
 class NguoiVay:
-    def __init__(self, name=None, ngay_muon=None, ngay_ket_thuc=None, tien_lai_10_ngay=None, sdt=None):
+    def __init__(self, name=None, ngay_muon=None, ngay_ket_thuc=None, tien_lai_10_ngay=None, sdt=None, tien=None):
         self.name = name
         self.ngay_muon = ngay_muon
         self.ngay_ket_thuc = ngay_ket_thuc
         self.tien_lai_10_ngay = tien_lai_10_ngay
         self.sdt = sdt
+        self.tien = self.tinhtien()
+
+    def tinhtien(self):
+        ngay = self.ngay_ket_thuc - self.ngay_muon
+        tong_tien_thu_duoc = (ngay.days // 10) * self.tien_lai_10_ngay
+        # tien_trong_thang = tong_tien_thu_duoc % (self.tien_lai_10_ngay * 3)
+        return int(tong_tien_thu_duoc)
 
 tong_nguoi = []
 
@@ -41,6 +48,7 @@ def hello():
                              ngay_ket_thuc=datetime.date(int(split_y_back), int(split_m_back), int(split_d_back)),
                              tien_lai_10_ngay=int(request.form['tienlai']),
                              sdt=int(request.form['sdt']))
+
 
         if form.validate():
             # Save the comment here.

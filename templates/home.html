@@ -17,7 +17,7 @@
   <form  action="" method="post" role="form">
     <div class="form-group">
       <label for="name">Tên người vay:</label>
-      <input type="text" class="form-control" id="name" name="name" placeholder="NguyenVanA">
+      <input type="text" class="form-control" id="name" name="name" placeholder="Nguyen Van A">
     </div>
       <div class="form-row form-group" >
     <div class="col-md-6 " style="padding-left: 0px">
@@ -68,6 +68,7 @@
         <th>Ngày trả</th>
         <th>Tiền lãi 10 ngày</th>
         <th>Số điện thoại</th>
+        <th>Tiền</th>
       </tr>
     </thead>
     <tbody>
@@ -78,6 +79,7 @@
         <td >{{n["ngay_ket_thuc"]}}</td>
         <td >{{n["tien_lai_10_ngay"]}}</td>
         <td >{{n["sdt"]}}</td>
+        <td >{{n["tien"]}}</td>
         </tr>
         {% endfor %}
     </tbody>
