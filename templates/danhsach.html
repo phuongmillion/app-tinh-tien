@@ -1,10 +1,54 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+    <head>
+        <title>Reusable Form Demo</title>
+       <link rel="stylesheet" media="screen" href ="static/bootstrap.min.css">
+       <link rel="stylesheet" href="static/bootstrap-theme.min.css">
+       <meta name="viewport" content = "width=device-width, initial-scale=1.0">
+
+    </head>
+    <body>
+    {% include 'header.html' %}
+<div class="jumbotron">
+ <div class="container">
+     <table class="table table-condensed">
+        <thead>
+         <tr>
+        <th>Tên người vay</th>
+        <th>Ngày vay</th>
+        <th>Ngày trả</th>
+        <th>Tiền lãi 10 ngày</th>
+      </tr>
+    </thead>
+    <tbody>
+        {% for n in tong_nguoi %}
+        <tr id={{loop.index}}>
+        <td >{{n["name"]}}</td>
+        <td >{{n["ngay_muon"]}}</td>
+        <td >{{n["ngay_ket_thuc"]}}</td>
+        <td >{{n["tien_lai_10_ngay"]}}</td>
+        <td><button type="button" class="btn btn-sm btn-success" onclick="de({{loop.index}})" />Xóa</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+     </table>
+ </div>
+</div>
+    <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+
+    <script>
+    function de(id){
+        console.log("ppppppppp")
+        var request = new Request('http://localhost:8080/danhsach/',
+             { method: 'POST',
+               body: id,
+               headers: new Headers({ 'Content-Type': 'application/json' })
+             });
+       fetch(request)
+       .then(resp => {
+             // handle response })
+
+    })}
+     </script>
+    </body>
 </html>
