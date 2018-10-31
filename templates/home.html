@@ -24,11 +24,15 @@
       <label for="tienlai">Tiền lãi 10 ngày:</label>
       <input type="number" step="50000" class="form-control" id="tienlai" name="tienlai" value="250000" required>
     </div>
-    <div class="col-md-3 " style="padding-left: 0px">
+    <div class="col-md-2 " style="padding-left: 0px">
       <label for="ngayvay">Ngày vay:</label>
       <input type="date"  class="form-control" id="ngayvay" name="ngayvay" required>
     </div>
-    <div class="col-md-3 " style="padding-right: 0px; padding-left: 0px">
+    <div class="col-md-2 " style="padding-right: 0px; padding-left: 0px">
+      <label for="ngaychualay">Ngày chưa lấy:</label>
+      <input type="date" class="form-control" id="ngaychualay" name="ngaychualay" required>
+    </div>
+     <div class="col-md-2 " style="padding-right: 0px; padding-left: 0px">
       <label for="ngaytra">Ngày trả:</label>
       <input type="date" class="form-control" id="ngaytra" name="ngaytra" required>
     </div>
@@ -66,8 +70,9 @@
         <th>Tên người vay</th>
         <th>Ngày vay</th>
         <th>Ngày trả</th>
+        <th>Ngày chưa lấy</th>
         <th>Tiền lãi 10 ngày</th>
-        <th>Tiền trong tháng</th>
+        <th>Tiền chưa lấy</th>
         <th>Tổng Tiền</th>
       </tr>
     </thead>
@@ -77,21 +82,22 @@
         <td >{{n["name"]}}</td>
         <td >{{n["ngay_muon"]}}</td>
         <td >{{n["ngay_ket_thuc"]}}</td>
+        <td >{{n["ngay_chua_lay"]}}</td>
         <td >{{n["tien_lai_10_ngay"]/1000}} K</td>
-        <td >{{n["tientrongthang"]/1000}} K</td>
+        <td >{{n["tienchualay"]/1000}} K</td>
         <td >{{n["thanhtien"]/1000}} K</td>
         </tr>
         {% endfor %}
     </tbody>
     <tfoot>
         <tr>
-            <td colspan="4" ></td>
+            <td colspan="5" ></td>
             <td style="text-align: left" class="bg-success text-danger">Tổng cộng</td>
             <td style="text-align: left" class="bg-success text-danger">Tổng cộng</td>
         </tr>
         <tr>
-          <td colspan="4"></td>
-          <td >{{tongthang/1000}} K</td>
+          <td colspan="5"></td>
+          <td >{{tongchualay/1000}} K</td>
           <td >{{tong/1000}} K</td>
         </tr>
     </tfoot>

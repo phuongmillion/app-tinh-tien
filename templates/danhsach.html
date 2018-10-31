@@ -18,6 +18,7 @@
         <th>Tên người vay</th>
         <th>Ngày vay</th>
         <th>Ngày trả</th>
+        <th>Ngày chưa lấy</th>
         <th>Tiền lãi 10 ngày</th>
         <th>Số điện thoại</th>
       </tr>
@@ -29,6 +30,7 @@
         <td >{{n["ngay_muon"]}}</td>
         <td >{{n["ngay_ket_thuc"]}}</td>
         <td >{{n["tien_lai_10_ngay"]}}</td>
+        <td >{{n["ngay_chua_lay"]}}</td>
         <td >{{n["sdt"]}}</td>
         <td><button type="button" class="btn btn-sm btn-success" onclick="de({{loop.index}})" />Xóa</td>
         </tr>
