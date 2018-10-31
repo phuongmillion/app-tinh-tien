@@ -67,8 +67,8 @@
         <th>Ngày vay</th>
         <th>Ngày trả</th>
         <th>Tiền lãi 10 ngày</th>
-        <th>Thành tiền</th>
         <th>Tiền trong tháng</th>
+        <th>Tổng Tiền</th>
       </tr>
     </thead>
     <tbody>
@@ -86,12 +86,13 @@
     <tfoot>
         <tr>
             <td colspan="4" ></td>
-            <td style="text-align: right">Tổng tiền</td>
+            <td style="text-align: left" class="bg-success text-danger">Tổng cộng</td>
+            <td style="text-align: left" class="bg-success text-danger">Tổng cộng</td>
         </tr>
         <tr>
           <td colspan="4"></td>
-          <td >{{tong/1000}} K</td>
           <td >{{tongthang/1000}} K</td>
+          <td >{{tong/1000}} K</td>
         </tr>
     </tfoot>
      </table>
