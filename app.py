@@ -39,14 +39,36 @@ class NguoiVay:
         tien_trong_thang = tong_tien_thu_duoc % (self.tien_lai_10_ngay * 3)
         return int(tien_trong_thang)
 
-tong_nguoi = []
-tong_tien_trong_thang = 0
-tong_tien = 0
+
+
+def get_tong_nguoi():
+    with open('./data.json', 'r') as f:
+        list_nguoi = json.loads(f.read())
+    return list_nguoi
+
+tong_nguoi = get_tong_nguoi()
+
+def get_tong_tien():
+    tien = 0
+    for nguoi in tong_nguoi:
+        tien = tien + nguoi["thanhtien"]
+    return tien
+
+tong_tien = get_tong_tien()
+
+def get_tong_tien_trong_thang():
+    tien = 0
+    for nguoi in tong_nguoi:
+        tien = tien + nguoi["tientrongthang"]
+    return tien
+tong_tien_trong_thang = get_tong_tien_trong_thang()
+
 @app.route("/", methods=['GET', 'POST'])
 def hello():
     global tong_nguoi
     global tong_tien_trong_thang
     global tong_tien
+    global list_nguoi
     form = ReusableForm(request.form)
     if request.method == 'POST':
         split_year_borrow, split_month_borrow, split_date_borrow = request.form['ngayvay'].split("-")
@@ -60,9 +82,22 @@ def hello():
 
 
         if form.validate():
-            tong_nguoi.append(nguoi_vay)
+            # tong_nguoi.append(nguoi_vay)
             tong_tien_trong_thang = tong_tien_trong_thang + nguoi_vay.tientrongthang
             tong_tien = tong_tien + nguoi_vay.thanhtien
+            with open('./data.json', 'w') as f:
+                nguoi = {
+                    "name": nguoi_vay.name,
+                    "ngay_muon": str(nguoi_vay.ngay_muon),
+                    "ngay_ket_thuc": str(nguoi_vay.ngay_ket_thuc),
+                    "tien_lai_10_ngay": nguoi_vay.tien_lai_10_ngay,
+                    "sdt": nguoi_vay.sdt,
+                    "thanhtien": nguoi_vay.thanhtien,
+                    "tientrongthang": nguoi_vay.tientrongthang
+                }
+                tong_nguoi.append(nguoi)
+                # list_dns.append(data)
+                json.dump(tong_nguoi, f)
         else:
             flash('Error: All the form fields are required. ')
 
@@ -78,9 +113,11 @@ def dele_danh_sach():
     global tong_tien
     global tong_tien_trong_thang
     try:
-        tong_tien = tong_tien - tong_nguoi[int(request.data.decode("utf-8")) - 1].thanhtien
-        tong_tien_trong_thang = tong_tien_trong_thang - tong_nguoi[int(request.data.decode("utf-8")) - 1].tientrongthang
+        tong_tien = tong_tien - tong_nguoi[int(request.data.decode("utf-8")) - 1]["thanhtien"]
+        tong_tien_trong_thang = tong_tien_trong_thang - tong_nguoi[int(request.data.decode("utf-8")) - 1]["tientrongthang"]
         tong_nguoi.pop(int(request.data.decode("utf-8")) - 1)
+        with open('./data.json', 'w') as f:
+            json.dump(tong_nguoi, f)
     except:
         return redirect('/danhsach')
     return redirect('/danhsach')
