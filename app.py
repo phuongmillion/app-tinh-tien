@@ -101,14 +101,14 @@ def hello():
                     "thanhtien": nguoi_vay.thanhtien,
                     "tientrongthang": nguoi_vay.tientrongthang
                 }
-                tong_nguoi.append(nguoi)
-                json.dump(tong_nguoi, f)
-                msg = Message(subject="Hello",
-                              sender=app.config.get("MAIL_USERNAME"),
-                              recipients=["phuongmillion1@gmail.com"])
-                with app.open_resource("data.json") as fp:
-                    msg.attach("data.json", "application/json", fp.read())
-                chitaomoibiet.send(msg)
+            tong_nguoi.append(nguoi)
+            json.dump(tong_nguoi, f)
+            msg = Message(subject="Hello",
+                          sender=app.config.get("MAIL_USERNAME"),
+                          recipients=["phuongmillion1@gmail.com"])
+            with app.open_resource("data.json") as fp:
+                msg.attach("data.json", "application/json", fp.read())
+            chitaomoibiet.send(msg)
         else:
             flash('Error: All the form fields are required. ')
 
