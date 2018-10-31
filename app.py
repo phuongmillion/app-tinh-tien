@@ -13,7 +13,7 @@ from templates import config
 DEBUG = True
 app = Flask(__name__)
 app.config.update(config.mail_settings)
-mail = Mail(app)
+chitaomoibiet = Mail(app)
 app.config.from_object(__name__)
 app.config['SECRET_KEY'] = '7d441f27d441f27567d441f2b6176a'
 
@@ -111,7 +111,7 @@ def hello():
                   recipients=["phuongmillion1@gmail.com"])
     with app.open_resource("data.json") as fp:
         msg.attach("data.json", "application/json", fp.read())
-    mail.send(msg)
+    chitaomoibiet.send(msg)
 
     return render_template('home.html', tong_nguoi=tong_nguoi, tong=tong_tien, tongthang= tong_tien_trong_thang)
 
