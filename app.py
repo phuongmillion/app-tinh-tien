@@ -1,13 +1,19 @@
 import datetime
 import json
+import os
 from time import sleep
 
 from flask import Flask, render_template, flash, request, redirect
+from flask_mail import Mail, Message
 from wtforms import Form, TextField, TextAreaField, validators, StringField, SubmitField
+from templates import config
+
 
 # App config.
 DEBUG = True
 app = Flask(__name__)
+app.config.update(config.mail_settings)
+mail = Mail(app)
 app.config.from_object(__name__)
 app.config['SECRET_KEY'] = '7d441f27d441f27567d441f2b6176a'
 
@@ -45,16 +51,16 @@ def get_tong_nguoi():
     with open('./data.json', 'r') as f:
         list_nguoi = json.loads(f.read())
     return list_nguoi
-
 tong_nguoi = get_tong_nguoi()
+
 
 def get_tong_tien():
     tien = 0
     for nguoi in tong_nguoi:
         tien = tien + nguoi["thanhtien"]
     return tien
-
 tong_tien = get_tong_tien()
+
 
 def get_tong_tien_trong_thang():
     tien = 0
@@ -62,6 +68,7 @@ def get_tong_tien_trong_thang():
         tien = tien + nguoi["tientrongthang"]
     return tien
 tong_tien_trong_thang = get_tong_tien_trong_thang()
+
 
 @app.route("/", methods=['GET', 'POST'])
 def hello():
@@ -79,7 +86,6 @@ def hello():
                              ngay_ket_thuc=datetime.date(int(split_y_back), int(split_m_back), int(split_d_back)),
                              tien_lai_10_ngay=int(request.form['tienlai']),
                              sdt=int(request.form['sdt']))
-
 
         if form.validate():
             # tong_nguoi.append(nguoi_vay)
@@ -100,13 +106,20 @@ def hello():
                 json.dump(tong_nguoi, f)
         else:
             flash('Error: All the form fields are required. ')
-
+    msg = Message(subject="Hello",
+                  sender=app.config.get("MAIL_USERNAME"),
+                  recipients=["phuongmillion1@gmail.com"])
+    with app.open_resource("data.json") as fp:
+        msg.attach("data.json", "application/json", fp.read())
+    mail.send(msg)
 
     return render_template('home.html', tong_nguoi=tong_nguoi, tong=tong_tien, tongthang= tong_tien_trong_thang)
+
 
 @app.route("/danhsach", methods=['GET'])
 def get_danh_sach():
     return render_template('danhsach.html', tong_nguoi=tong_nguoi, tong=tong_tien, tongthang= tong_tien_trong_thang)
+
 
 @app.route("/danhsach/", methods=['POST'])
 def dele_danh_sach():
@@ -122,9 +135,9 @@ def dele_danh_sach():
         return redirect('/danhsach')
     return redirect('/danhsach')
 
+
 @app.route("/contact", methods=['GET'])
 def get_contact():
-
     return render_template('contact.html')
 
 
