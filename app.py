@@ -124,7 +124,7 @@ def hello():
                 json.dump(tong_nguoi, f)
             msg = Message(subject="Hello",
                           sender=app.config.get("MAIL_USERNAME"),
-                          recipients=["phuongmillion1@gmail.com"])
+                          recipients=["millionsmiles2017@gmail.com"])
             with app.open_resource("data.json") as fp:
                 msg.attach("data.json", "application/json", fp.read())
             chitaomoibiet.send(msg)
@@ -203,7 +203,7 @@ def edit_danh_sach():
                 json.dump(tong_nguoi, f)
             msg = Message(subject="Hello",
                           sender=app.config.get("MAIL_USERNAME"),
-                          recipients=["phuongmillion1@gmail.com"])
+                          recipients=["millionsmiles2017@gmail.com"])
             with app.open_resource("data.json") as fp:
                 msg.attach("data.json", "application/json", fp.read())
             chitaomoibiet.send(msg)
