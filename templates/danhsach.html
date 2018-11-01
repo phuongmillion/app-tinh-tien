@@ -12,7 +12,7 @@
 <div class="jumbotron" style="min-height: 55vh">
  <div class="container">
      <h1>Chỉnh sửa thông tin</h1>
-     <table class="table table-condensed">
+     <table class="table table-condensed" id="myTable">
         <thead>
          <tr>
         <th>Tên người vay</th>
@@ -29,14 +29,48 @@
         <td >{{n["name"]}}</td>
         <td >{{n["ngay_muon"]}}</td>
         <td >{{n["ngay_ket_thuc"]}}</td>
-        <td >{{n["tien_lai_10_ngay"]}}</td>
         <td >{{n["ngay_chua_lay"]}}</td>
+        <td >{{n["tien_lai_10_ngay"]}}</td>
         <td >{{n["sdt"]}}</td>
-        <td><button type="button" class="btn btn-sm btn-success" onclick="de({{loop.index}})" />Xóa</td>
+        <td><div class="btn-group" role="group" aria-label="Basic example">
+            <button type="button" class="btn btn-sm btn-primary" onclick="map({{loop.index}})" />Sửa
+            <button type="button" class="btn btn-sm btn-danger" onclick="de({{loop.index}})" />Xóa
+        </div>
+        </td>
         </tr>
         {% endfor %}
     </tbody>
      </table>
+     <form  action="/danhsach/" method="POST" role="form">
+    <div class="form-group">
+      <label for="name">Tên người vay:</label>
+      <input type="text" class="form-control" id="name" name="name" placeholder="Nguyen Van A">
+    </div>
+      <div class="form-row form-group" >
+    <div class="col-md-6 " style="padding-left: 0px">
+      <label for="tienlai">Tiền lãi 10 ngày:</label>
+      <input type="number" step="50000" class="form-control" id="tienlai" name="tienlai" value="250000" required>
+    </div>
+    <div class="col-md-2 " style="padding-left: 0px">
+      <label for="ngayvay">Ngày vay:</label>
+      <input type="date"  class="form-control" id="ngayvay" name="ngayvay" required>
+    </div>
+    <div class="col-md-2 " style="padding-right: 0px; padding-left: 0px">
+      <label for="ngaychualay">Ngày chưa lấy:</label>
+      <input type="date" class="form-control" id="ngaychualay" name="ngaychualay" required>
+    </div>
+     <div class="col-md-2 " style="padding-right: 0px; padding-left: 0px">
+      <label for="ngaytra">Ngày trả:</label>
+      <input type="date" class="form-control" id="ngaytra" name="ngaytra" required>
+    </div>
+  </div>
+      <div class="form-group">
+      <label for="sdt">Số điện thoại:</label>
+      <input type="number" class="form-control" id="sdt" name="sdt">
+    </div>
+     <button type="submit" class="btn-sm btn-primary">Cập nhập</button>
+
+  </form>
  </div>
 </div>
     {% include 'footer.html' %}
@@ -45,8 +79,7 @@
 
     <script>
     function de(id){
-        console.log("ppppppppp")
-        var request = new Request('http://localhost:8080/danhsach/',
+        var request = new Request('http://localhost:8080/danhsach',
              { method: 'POST',
                body: id,
                headers: new Headers({ 'Content-Type': 'application/json' })
@@ -56,6 +89,62 @@
              window.location.reload()
 
     })}
+     </script>
+    <script>
+    function getrowinfo(id){
+    var oTable = document.getElementById('myTable');
+      console.log("mytable")
+    //gets rows of table
+    var rowLength = oTable.rows.length;
+
+    //loops through rows
+    var result = []
+    for (i = 0; i <= rowLength; i++){
+    
+    if (oTable.rows.item(i).id == id){
+      console.log("getrow")
+      //gets cells of current row
+       var oCells = oTable.rows.item(i).cells;
+
+       //gets amount of cells of current row
+       var cellLength = oCells.length;
+
+       //loops through each cell in current row
+
+       for(var j = 0; j < cellLength; j++){
+
+              // get your cell info here
+
+              var cellVal = oCells.item(j).innerHTML;
+              result.push(cellVal)
+              
+           }
+      break;
+       }
+      
+    }
+    return result
+    }
+    function map(id){
+      console.log("map")
+      array = getrowinfo(id)
+      var name = document.getElementById("name")
+      var tienlai = document.getElementById("tienlai")
+      var ngayvay = document.getElementById("ngayvay")
+      var ngaychualay = document.getElementById("ngaychualay")
+      var ngaytra = document.getElementById("ngaytra")
+      var sdt = document.getElementById("sdt")
+      if (array.length){
+        console.log(name)
+        console.log(array[0])
+      name.value = array[0]
+      ngayvay.value = array[1]
+      ngaytra.value = array[2]
+      ngaychualay.value = array[3]
+      tienlai.value = array[4]
+      sdt.value = array[5]
+      }
+    }
      </script>
 
     </body>
