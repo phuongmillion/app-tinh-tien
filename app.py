@@ -159,7 +159,8 @@ def dele_danh_sach():
 
 @app.route("/contact", methods=['GET'])
 def get_contact():
-    return render_template('contact.html')
+    return render_template('Edit.html', tong_nguoi=tong_nguoi, tong=tong_tien, tongchualay=tong_tien_chua_lay)
+
 
 
 
