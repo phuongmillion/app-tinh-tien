@@ -9,5 +9,4 @@ __pycache__
 */__init__.py
 *.dat
 *.log
-**.json
-.*json
+**/data.json

@@ -65,7 +65,7 @@ def get_tong_tien():
     for nguoi in tong_nguoi:
         tien = tien + nguoi["thanhtien"]
     return tien
-tong_tien = get_tong_tien() + 1750000
+tong_tien = get_tong_tien()
 
 
 # def get_tong_tien_trong_thang():
@@ -80,7 +80,7 @@ def get_tong_tien_chua_lay():
     for nguoi in tong_nguoi:
         tien = tien + nguoi["tienchualay"]
     return tien
-tong_tien_chua_lay = get_tong_tien_chua_lay() + 1750000
+tong_tien_chua_lay = get_tong_tien_chua_lay()
 
 
 @app.route("/", methods=['GET', 'POST'])
